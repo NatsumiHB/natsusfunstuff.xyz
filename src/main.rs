@@ -88,7 +88,7 @@ async fn random(urls: Data<Urls>) -> HttpResponse {
         .unwrap();
 
     HttpResponse::TemporaryRedirect()
-        .set_header(LOCATION, HeaderValue::from_str(redirect_url).unwrap())
+        .insert_header((LOCATION, HeaderValue::from_str(redirect_url).unwrap()))
         .finish()
 }
 
@@ -96,7 +96,7 @@ async fn random(urls: Data<Urls>) -> HttpResponse {
 async fn choose(id: web::Path<String>, urls: Data<Urls>) -> actix_web::Result<HttpResponse> {
     match urls.as_ref().0.get(id.as_str()) {
         Some(url) => Ok(HttpResponse::TemporaryRedirect()
-            .set_header(LOCATION, HeaderValue::from_str(url).unwrap())
+            .insert_header((LOCATION, HeaderValue::from_str(url).unwrap()))
             .finish()),
         None => Err(HttpResponse::NotFound().into()),
     }
