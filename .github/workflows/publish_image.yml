@@ -2,7 +2,7 @@ name: Publish Docker image
 on:
   release:
     types:
-      - published
+      - released
 
 jobs:
   publish_image:
@@ -35,5 +35,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            natsuwumi/random-website-redirect:latest
-            natsuwumi/random-website-redirect:${{ steps.previoustag.outputs.tag }}
+            nullfact0r/random-website-redirect:latest
+            nullfact0r/random-website-redirect:${{ steps.previoustag.outputs.tag }}
