@@ -23,6 +23,16 @@ struct Url {
     pub url: String,
 }
 
+const NOT_FOUND: &str = r#"
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Error 404!</h1>
+        <h2>The requested subdomain does not exist on this server.</h2>
+    </body>
+</html>
+"#;
+
 #[actix_rt::main]
 async fn main() -> anyhow::Result<()> {
     dotenv::dotenv().ok();
@@ -88,7 +98,7 @@ async fn random(urls: Data<Urls>) -> HttpResponse {
         .unwrap();
 
     HttpResponse::TemporaryRedirect()
-        .insert_header((LOCATION, HeaderValue::from_str(redirect_url).unwrap()))
+        .set_header(LOCATION, HeaderValue::from_str(redirect_url).unwrap())
         .finish()
 }
 
@@ -96,8 +106,11 @@ async fn random(urls: Data<Urls>) -> HttpResponse {
 async fn choose(id: web::Path<String>, urls: Data<Urls>) -> actix_web::Result<HttpResponse> {
     match urls.as_ref().0.get(id.as_str()) {
         Some(url) => Ok(HttpResponse::TemporaryRedirect()
-            .insert_header((LOCATION, HeaderValue::from_str(url).unwrap()))
+            .set_header(LOCATION, HeaderValue::from_str(url).unwrap())
             .finish()),
-        None => Err(HttpResponse::NotFound().into()),
+        None => Err(HttpResponse::NotFound()
+            .content_type("text/html")
+            .body(NOT_FOUND)
+            .into()),
     }
 }
