@@ -1,18 +1,18 @@
 [package]
 name = "random-website-redirect"
 version = "1.0.0"
-authors = ["Natsumi H. <39241405+NatsumiHB@users.noreply.github.com>"]
+authors = ["nullfact0r <82207258+nullfact0r@users.noreply.github.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = "1.0.125"
-serde_json = "1.0.64"
+serde = "1.0.130"
+serde_json = "1.0.67"
 actix-web = "3.3.2"
-actix-rt = "1"
-anyhow = "1.0.40"
-rand = "0.8.3"
+actix-rt = "2.2.0"
+anyhow = "1.0.43"
+rand = "0.8.4"
 log = "0.4.14"
 pretty_env_logger = "0.4.0"
 dotenv = "0.15.0"
